@@ -23,6 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Unit test for {@link BuildVersion}.
  *
@@ -36,6 +39,16 @@ class BuildVersionTest {
         var expected = "1.0-SNAPSHOT";
         var actual = BuildVersion.getInstance().buildVersion();
         assertThat(actual).isNotNull().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Test get the current build number")
+    public void testCurrentBuildNumber() {
+        var sdf = new SimpleDateFormat("yyM.w");
+        var curr = sdf.format(new Date());
+        System.out.println(curr);
+        var actual = BuildVersion.getInstance().buildNumber();
+        assertThat(actual).isNotNull().isEqualTo(curr);
     }
 
 }
