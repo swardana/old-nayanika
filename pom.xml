@@ -201,6 +201,8 @@
                             com.swardana.nayanika/com.swardana.nayanika.base.gallery=ALL-UNNAMED
                         --add-opens
                             com.swardana.nayanika/com.swardana.nayanika.base.slideshow=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.control=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
