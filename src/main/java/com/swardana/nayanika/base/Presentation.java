@@ -18,12 +18,37 @@
 
 package com.swardana.nayanika.base;
 
+import com.swardana.nayanika.base.slideshow.SlideShow;
+
 /**
  * A slide-show presentation.
  *
  * @author Sukma Wardana
  */
 public interface Presentation {
+
+    /**
+     * Update the current slide-show presentation.
+     *
+     * @param slide the new active slide-show presentation.
+     */
+    void slide(SlideShow slide);
+
+    /**
+     * Start play the slide-show presentation.
+     * <p>
+     *     This will change the value of {@link #isRunning()} to {@code true}.
+     * </p>
+     */
+    void start();
+
+    /**
+     * Stop play the slide-show presentation.
+     * <p>
+     *     This will change the value of {@link #isRunning()} to {@code false}.
+     * </p>
+     */
+    void stop();
 
     /**
      * Check whether the presentation is running or not.
