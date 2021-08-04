@@ -205,6 +205,8 @@
                             com.swardana.nayanika/com.swardana.nayanika.control=ALL-UNNAMED
                         --add-opens
                             com.swardana.nayanika/com.swardana.nayanika.command=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
