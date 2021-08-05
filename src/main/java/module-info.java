@@ -30,6 +30,8 @@ module com.swardana.nayanika {
     requires javafx.controls;
     requires javafx.graphics;
 
+    requires com.swardana.metroiconfx;
+
     opens com.swardana.nayanika to javafx.graphics;
 
     exports com.swardana.nayanika;
