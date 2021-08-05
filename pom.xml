@@ -211,6 +211,8 @@
                             com.swardana.nayanika/com.swardana.nayanika.gui.about=ALL-UNNAMED
                         --add-opens
                             com.swardana.nayanika/com.swardana.nayanika.gui.frame=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui.menu=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
