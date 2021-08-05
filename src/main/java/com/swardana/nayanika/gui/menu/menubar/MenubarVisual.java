@@ -294,6 +294,7 @@ public class MenubarVisual extends MenuBar implements MenubarView {
         dialog.setContentText("Slide Show Duration: ");
         var result = dialog.showAndWait();
         if (result.isPresent()) {
+            this.time = result.get().doubleValue();
             this.behavior.updateSlidePresentation(this.gallery(), this.time);
         }
     }
