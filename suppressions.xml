@@ -25,6 +25,7 @@
 
     <suppress checks="ExecutableStatementCount" files="AboutVisual.java" />
     <suppress checks="ExecutableStatementCount" files="ToolbarVisual.java" />
+    <suppress checks="ParameterNumber" files="MenuVisual.java" />
     <suppress checks="ParameterNumber" files="GalleryMenuBehavior.java" />
     <suppress checks="ParameterNumber" files="MenubarBehavior.java" />
     <suppress checks="ParameterNumber" files="MenubarVisual.java" />
