@@ -24,5 +24,6 @@
 <suppressions>
 
     <suppress checks="ExecutableStatementCount" files="AboutVisual.java" />
+    <suppress checks="ParameterNumber" files="GalleryMenuBehavior.java" />
 
 </suppressions>
