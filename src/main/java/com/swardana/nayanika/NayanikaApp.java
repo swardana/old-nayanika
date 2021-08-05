@@ -18,10 +18,12 @@
 
 package com.swardana.nayanika;
 
+import com.swardana.nayanika.base.BuildVersion;
+import com.swardana.nayanika.base.ThreadExecutor;
+import com.swardana.nayanika.gui.AppVisual;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -32,9 +34,23 @@ import javafx.stage.Stage;
 public class NayanikaApp extends Application {
 
     @Override
-    public final void start(final Stage stage) throws Exception {
-        var scene = new Scene(new StackPane(new Label("Hello!")), 600, 480);
+    public void start(final Stage stage) throws Exception {
+        var title = I18N.INSTANCE.message("this.name")
+            + "-"
+            + BuildVersion.getInstance().buildVersion();
+        var app = new AppVisual(stage);
+        var scene = new Scene(app, 600, 480);
+        scene.getStylesheets().add(AppPlatform.CSS_STYLE);
         stage.setScene(scene);
+        stage.setTitle(title);
+        stage.getIcons().add(new Image(AppPlatform.ICON));
         stage.show();
     }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        ThreadExecutor.getInstance().shutdown();
+    }
+
 }
