@@ -295,7 +295,7 @@ public class MenubarVisual extends MenuBar implements MenubarView {
         var result = dialog.showAndWait();
         if (result.isPresent()) {
             this.time = result.get().doubleValue();
-            this.behavior.updateSlidePresentation(this.gallery(), this.time);
+            this.presentationSubject.time(this.time);
         }
     }
 
@@ -480,7 +480,7 @@ public class MenubarVisual extends MenuBar implements MenubarView {
                 final GallerySubject newGallery
             ) {
                 behavior.onPictureGalleryChange();
-                behavior.updateSlidePresentation(newGallery, time);
+                presentationSubject.gallery(newGallery);
                 bindGalleryNavigationControl(newGallery);
             }
         });

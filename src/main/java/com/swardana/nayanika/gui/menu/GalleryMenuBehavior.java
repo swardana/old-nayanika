@@ -22,10 +22,7 @@ import com.swardana.nayanika.base.FullScreen;
 import com.swardana.nayanika.base.Presentation;
 import com.swardana.nayanika.base.ThreadExecutor;
 import com.swardana.nayanika.base.gallery.Exhibition;
-import com.swardana.nayanika.base.gallery.Gallery;
 import com.swardana.nayanika.base.gallery.SupportedPicture;
-import com.swardana.nayanika.base.slideshow.SlideShow;
-import com.swardana.nayanika.base.slideshow.TimelineSlideShow;
 import com.swardana.nayanika.command.OpenGallery;
 
 import java.io.File;
@@ -217,32 +214,6 @@ public abstract class GalleryMenuBehavior {
         } else {
             this.view.showStartSlideShowMenu();
         }
-    }
-
-    /**
-     * Called by the view.
-     * <p>
-     *     Updating the picture gallery and transition animation duration for
-     *     the slide presentation.
-     * </p>
-     *
-     * @param gallery the new picture gallery.
-     * @param duration the new transition speed duration.
-     */
-    public final void updateSlidePresentation(final Gallery gallery, final double duration) {
-        this.updateSlidePresentation(new TimelineSlideShow(gallery, duration));
-    }
-
-    /**
-     * Called by the view.
-     * <p>
-     *     Update the slide presentation.
-     * </p>
-     *
-     * @param slideShow the new slide-show presentation.
-     */
-    public final void updateSlidePresentation(final SlideShow slideShow) {
-        this.presentation.slide(slideShow);
     }
 
 }

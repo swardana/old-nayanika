@@ -19,11 +19,7 @@
 package com.swardana.nayanika.control;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
-import com.swardana.nayanika.base.slideshow.SlideShow;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -42,41 +38,6 @@ class PresentationControlTest {
         presentation.start();
         var actual = presentation.isRunning();
         assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("Test start the presentation")
-    public void testStartPresentation() {
-        var expected = true;
-
-        var mockSlide = mock(SlideShow.class);
-
-        var presentation = new PresentationControl();
-        presentation.slide(mockSlide);
-        presentation.start();
-
-        var actual = presentation.isRunning();
-
-        assertThat(actual).isEqualTo(expected);
-        verify(mockSlide, times(1)).play();
-    }
-
-    @Test
-    @DisplayName("Test stop the presentation")
-    public void testStopPresentation() {
-        var expected = false;
-
-        var mockSlide = mock(SlideShow.class);
-
-        var presentation = new PresentationControl();
-        presentation.slide(mockSlide);
-        presentation.start();
-        presentation.stop();
-
-        var actual = presentation.isRunning();
-
-        assertThat(actual).isEqualTo(expected);
-        verify(mockSlide, times(1)).stop();
     }
 
 }

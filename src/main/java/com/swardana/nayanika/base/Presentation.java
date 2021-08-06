@@ -18,7 +18,7 @@
 
 package com.swardana.nayanika.base;
 
-import com.swardana.nayanika.base.slideshow.SlideShow;
+import com.swardana.nayanika.base.gallery.Gallery;
 
 /**
  * A slide-show presentation.
@@ -28,11 +28,18 @@ import com.swardana.nayanika.base.slideshow.SlideShow;
 public interface Presentation {
 
     /**
-     * Update the current slide-show presentation.
+     * Update the current gallery.
      *
-     * @param slide the new active slide-show presentation.
+     * @param gallery the new active gallery.
      */
-    void slide(SlideShow slide);
+    void gallery(Gallery gallery);
+
+    /**
+     * Update the current time transition for presentation slide.
+     *
+     * @param time the new active time transition.
+     */
+    void time(double time);
 
     /**
      * Start play the slide-show presentation.

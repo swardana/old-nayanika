@@ -18,7 +18,9 @@
 
 package com.swardana.nayanika.control;
 
+import com.swardana.nayanika.base.gallery.Gallery;
 import com.swardana.nayanika.base.slideshow.SlideShow;
+import com.swardana.nayanika.base.slideshow.TimelineSlideShow;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -32,6 +34,8 @@ public class PresentationControl implements PresentationSubject {
 
     private final BooleanProperty runningProperty;
 
+    private double timeTransition;
+    private Gallery slideGallery;
     private SlideShow slideShow;
     private boolean running;
 
@@ -41,11 +45,19 @@ public class PresentationControl implements PresentationSubject {
     public PresentationControl() {
         this.runningProperty = new SimpleBooleanProperty(this, "running", false);
         this.running = false;
+        this.timeTransition = 8.0;
     }
 
     @Override
-    public final void slide(final SlideShow slide) {
-        this.slideShow = slide;
+    public final void gallery(final Gallery gallery) {
+        this.slideGallery = gallery;
+        this.updateSlide();
+    }
+
+    @Override
+    public final void time(final double time) {
+        this.timeTransition = time;
+        this.updateSlide();
     }
 
     @Override
@@ -78,6 +90,10 @@ public class PresentationControl implements PresentationSubject {
 
     private void runningStateChanged() {
         this.runningProperty.setValue(this.isRunning());
+    }
+
+    private void updateSlide() {
+        this.slideShow = new TimelineSlideShow(this.slideGallery, this.timeTransition);
     }
 
 }

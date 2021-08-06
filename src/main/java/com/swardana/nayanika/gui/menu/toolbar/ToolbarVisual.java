@@ -22,7 +22,6 @@ import com.swardana.metroiconfx.MetroIconFont;
 import com.swardana.metroiconfx.control.MetroIcon;
 import com.swardana.nayanika.base.gallery.Gallery;
 import com.swardana.nayanika.base.gallery.SupportedPicture;
-import com.swardana.nayanika.base.slideshow.TimelineSlideShow;
 import com.swardana.nayanika.control.ExhibitionSubject;
 import com.swardana.nayanika.control.FullScreenSubject;
 import com.swardana.nayanika.control.GallerySubject;
@@ -305,7 +304,7 @@ public class ToolbarVisual extends ToolBar implements ToolbarView {
                 final GallerySubject newGallery
             ) {
                 behavior.onPictureGalleryChange();
-                behavior.updateSlidePresentation(new TimelineSlideShow(newGallery));
+                presentationSubject.gallery(newGallery);
                 bindGalleryNavigationControl(newGallery);
             }
         });
