@@ -32,6 +32,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>16</maven.compiler.release>
 
+        <!-- For Maven Exec Plugin -->
+        <module.name>com.swardana.nayanika</module.name>
+        <class.name>com.swardana.nayanika.NayanikaApp</class.name>
+
         <!-- For version.properties file -->
         <build.number>${maven.build.timestamp}</build.number>
         <!--
@@ -150,6 +154,21 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>${maven.exec.version}</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-Xms64m</argument>
+                        <argument>-Xmx256m</argument>
+                        <argument>-XX:+UseShenandoahGC</argument>
+                        <argument>-XX:+UnlockExperimentalVMOptions</argument>
+                        <argument>-XX:ShenandoahUncommitDelay=60000</argument>
+                        <argument>-XX:ShenandoahGuaranteedGCInterval=10000</argument>
+                        <argument>--module-path</argument>
+                        <modulepath/>
+                        <argument>--module</argument>
+                        <argument>${module.name}/${class.name}</argument>
+                    </arguments>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
