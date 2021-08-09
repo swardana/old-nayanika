@@ -36,7 +36,7 @@ class BuildVersionTest {
     @Test
     @DisplayName("Test get the current build version")
     public void testCurrentBuildVersion() {
-        var expected = "1.0-SNAPSHOT";
+        var expected = "1.0.0";
         var actual = BuildVersion.getInstance().buildVersion();
         assertThat(actual).isNotNull().isEqualTo(expected);
     }
