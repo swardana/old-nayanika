@@ -364,7 +364,7 @@
                 </os>
             </activation>
             <properties>
-                <platform>win</platform>
+                <platform>windows</platform>
                 <icon.path>${project.basedir}\package\icons\icon.ico</icon.path>
                 <license.file>${project.basedir}\COPYING</license.file>
                 <executable>cmd</executable>
@@ -381,7 +381,7 @@
                 </os>
             </activation>
             <properties>
-                <platform>mac</platform>
+                <platform>macos</platform>
                 <icon.path>${project.basedir}/package/icons/icon.icns</icon.path>
                 <license.file>${project.basedir}/COPYING</license.file>
                 <executable>/bin/sh</executable>
@@ -424,6 +424,7 @@
                                 <INSTALLER_TYPE>${installer.type}</INSTALLER_TYPE>
                                 <WINDOWS_UUID>${windows.upgrade.uuid}</WINDOWS_UUID>
                                 <ARCH>x86_64</ARCH>
+                                <OPERATING_SYSTEM>${platform}</OPERATING_SYSTEM>
                                 <BUILD_NUMBER>${build.number}</BUILD_NUMBER>
                                 <TEMP_DIR>${project.build.directory}/installer-work</TEMP_DIR>
                             </environmentVariables>

@@ -148,5 +148,5 @@ else
 fi
 
 echo "compress the installer"
-tar -cvzf ./target/installer/nayanika-${PROJECT_VERSION}-${ARCH}-${BUILD_NUMBER}.tar.gz \
+tar -cvzf ./target/installer/nayanika-${PROJECT_VERSION}-${OPERATING_SYSTEM}-${ARCH}-${BUILD_NUMBER}.tar.gz \
   ./target/installer/nayanika-${PROJECT_VERSION}.${INSTALLER_TYPE}
