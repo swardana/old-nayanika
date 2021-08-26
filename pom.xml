@@ -166,10 +166,7 @@
                     <arguments>
                         <argument>-Xms64m</argument>
                         <argument>-Xmx256m</argument>
-                        <argument>-XX:+UseShenandoahGC</argument>
-                        <argument>-XX:+UnlockExperimentalVMOptions</argument>
-                        <argument>-XX:ShenandoahUncommitDelay=60000</argument>
-                        <argument>-XX:ShenandoahGuaranteedGCInterval=10000</argument>
+                        <argument>-XX:+UseSerialGC</argument>
                         <argument>--module-path</argument>
                         <modulepath/>
                         <argument>--module</argument>
