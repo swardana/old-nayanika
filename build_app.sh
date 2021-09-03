@@ -16,7 +16,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-#!/bin/sh
+#!/bin/bash
 # ------ ENVIRONMENT --------------------------------------------------------
 # The script depends on various environment variables to exist in order to
 # run properly. The java version we want to use, the location of the java
@@ -148,5 +148,5 @@ else
 fi
 
 echo "compress the installer"
-tar -cvzf ./target/installer/nayanika-${PROJECT_VERSION}-${OPERATING_SYSTEM}-${ARCH}-${BUILD_NUMBER}.tar.gz \
-  ./target/installer/nayanika-${PROJECT_VERSION}.${INSTALLER_TYPE}
+tar -cvzf ./target/installer/${APP_NAME}-${PROJECT_VERSION}-${OPERATING_SYSTEM}-${ARCH}-${BUILD_NUMBER}.tar.gz \
+  ./target/installer/*.${INSTALLER_TYPE}

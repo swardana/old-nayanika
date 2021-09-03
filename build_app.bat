@@ -117,6 +117,6 @@ call "%JAVA_HOME%\bin\jpackage" ^
 
 echo compress the installer
 cd target\installer
-jar -cfM nayanika-%PROJECT_VERSION%-%OPERATING_SYSTEM%-%ARCH%-%BUILD_NUMBER%.zip ^
-  nayanika-%PROJECT_VERSION%.%INSTALLER_TYPE%
+jar -cfM %APP_NAME%-%PROJECT_VERSION%-%OPERATING_SYSTEM%-%ARCH%-%BUILD_NUMBER%.zip ^
+  %APP_NAME%-%PROJECT_VERSION%.%INSTALLER_TYPE%
 cd ..\..\
