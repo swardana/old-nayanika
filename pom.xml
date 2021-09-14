@@ -103,7 +103,7 @@
 
         <!-- dependencies -->
         <jfx.version>16</jfx.version>
-        <metroiconfx.version>1.0.0</metroiconfx.version>
+        <mangata.metro.version>1.0.0</mangata.metro.version>
     </properties>
 
     <dependencies>
@@ -140,9 +140,9 @@
             <version>${jfx.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.swardana</groupId>
-            <artifactId>metroiconfx</artifactId>
-            <version>${metroiconfx.version}</version>
+            <groupId>com.swardana.mangata</groupId>
+            <artifactId>mangata-metro</artifactId>
+            <version>${mangata.metro.version}</version>
         </dependency>
     </dependencies>
 
