@@ -28,6 +28,12 @@
         </developer>
     </developers>
 
+    <scm>
+        <url>https://github.com/swardana/nayanika</url>
+        <connection>scm:git:https://github.com/swardana/nayanika.git</connection>
+        <developerConnection>scm:git:git@github.com:swardana/nayanika.git</developerConnection>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>16</maven.compiler.release>
@@ -61,20 +67,33 @@
         <app.name>com/swardana/nayanika</app.name>
         <app.title>Nayanika</app.title>
 
-        <!-- plugins -->
+        <!-- Apache Maven & Plugins -->
         <maven.version>3.8.1</maven.version>
+        <!-- Core plugins -->
         <maven.clean.version>3.1.0</maven.clean.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.deploy.version>3.0.0-M1</maven.deploy.version>
         <maven.install.version>3.0.0-M1</maven.install.version>
-        <maven.exec.version>3.0.0</maven.exec.version>
         <maven.resources.version>3.2.0</maven.resources.version>
-        <maven.dependency.version>3.1.2</maven.dependency.version>
+        <maven.site.version>3.9.1</maven.site.version>
         <maven.surefire.version>3.0.0-M5</maven.surefire.version>
+        <maven.failsafe.version>3.0.0-M5</maven.failsafe.version>
+        <!-- Packaging plugins -->
         <maven.jar.version>3.2.0</maven.jar.version>
-        <maven.enforcer.version>3.0.0-M1</maven.enforcer.version>
-        <jacoco.version>0.8.6</jacoco.version>
+        <maven.source.version>3.2.1</maven.source.version>
+        <!-- Reporting plugins -->
+        <maven.javadoc.version>3.2.0</maven.javadoc.version>
+        <maven.project.info-reports.version>3.1.2</maven.project.info-reports.version>
+        <maven.surefire.report.version>3.0.0-M5</maven.surefire.report.version>
         <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
+        <!-- Tools plugins -->
+        <maven.dependency.version>3.1.2</maven.dependency.version>
+        <maven.enforcer.version>3.0.0-M1</maven.enforcer.version>
+        <maven.gpg.version>3.0.1</maven.gpg.version>
+
+        <jacoco.version>0.8.7</jacoco.version>
         <checkstyle.version>8.36</checkstyle.version>
+        <maven.exec.version>3.0.0</maven.exec.version>
 
         <!-- test dependencies -->
         <junit.jupiter.version>5.7.1</junit.jupiter.version>
@@ -154,30 +173,141 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>${maven.install.version}</version>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven.deploy.version}</version>
+                <configuration>
+                    <!--
+                    Skip deploying using maven-deploy-plugin and replace
+                    it using nexus-staging-maven-plugin
+                    -->
+                    <skip>true</skip>
+                </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${maven.exec.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.failsafe.version}</version>
                 <configuration>
-                    <executable>java</executable>
-                    <arguments>
-                        <argument>-Xms64m</argument>
-                        <argument>-Xmx256m</argument>
-                        <argument>-XX:+UseSerialGC</argument>
-                        <argument>--module-path</argument>
-                        <modulepath/>
-                        <argument>--module</argument>
-                        <argument>${module.name}/${class.name}</argument>
-                    </arguments>
+                    <argLine>${failsafe.jacoco.args}</argLine>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>${maven.install.version}</version>
+                <configuration>
+                    <!--
+                    This is an app, so we don't want to install it
+                    in the local Maven repository
+                    -->
+                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>${maven.resources.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven.site.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+                <configuration>
+                    <argLine>
+                        ${surefire.jacoco.args}
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.base=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.base.gallery=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.base.slideshow=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.control=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.command=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui.about=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui.frame=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui.menu=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui.menu.menubar=ALL-UNNAMED
+                        --add-opens
+                            com.swardana.nayanika/com.swardana.nayanika.gui.menu.toolbar=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven.jar.version}</version>
+                <configuration>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                    <outputDirectory>${project.build.directory}/dependency</outputDirectory>
+                    <archive>
+                        <manifestEntries>
+                            <Name>${app.name}</Name>
+                            <Specification-Title>${app.title}</Specification-Title>
+                            <Specification-Version>${project.version}</Specification-Version>
+                            <Implementation-Title>${project.artifactId}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Build-Jdk>${java.version} (${java.vendor} ${java.vm.version})</Build-Jdk>
+                            <Build-OS>${os.name} ${os.arch} ${os.version}</Build-OS>
+                        </manifestEntries>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.source.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                        <configuration>
+                            <attach>true</attach>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <doclint>none</doclint>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -191,92 +321,12 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
                             <includeScope>compile</includeScope>
                             <includeScope>runtime</includeScope>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven.jar.version}</version>
-                <configuration>
-                    <finalName>${project.artifactId}-${project.version}</finalName>
-                    <archive>
-                        <manifestEntries>
-                            <Name>${app.name}</Name>
-                            <Specification-Title>${app.title}</Specification-Title>
-                            <Specification-Version>${project.version}</Specification-Version>
-                            <Implementation-Title>${project.artifactId}</Implementation-Title>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.version}</version>
-                <configuration>
-                    <argLine>
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.base=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.base.gallery=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.base.slideshow=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.control=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.command=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.gui=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.gui.about=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.gui.frame=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.gui.menu=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.gui.menu.menubar=ALL-UNNAMED
-                        --add-opens
-                        com.swardana.nayanika/com.swardana.nayanika.gui.menu.toolbar=ALL-UNNAMED
-                    </argLine>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <configuration>
-                    <destFile>${project.build.directory}/coverage-reports/jacoco-unit.exec</destFile>
-                    <dataFile>${project.build.directory}/coverage-reports/jacoco-unit.exec</dataFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>jacoco-initialize</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>jacoco-site</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -301,6 +351,132 @@
                         <goals>
                             <goal>enforce</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven.gpg.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <gpgArguments>
+                        <arg>--pinentry-mode</arg>
+                        <arg>loopback</arg>
+                    </gpgArguments>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>before-unit-test-execution</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</destFile>
+                            <propertyName>surefire.jacoco.args</propertyName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>after-unit-test-execution</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>before-integration-test-execution</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacoco-output/jacoco-integration-tests.exec</destFile>
+                            <propertyName>failsafe.jacoco.args</propertyName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>after-integration-test-execution</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/jacoco-output/jacoco-integration-tests.exec</dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-integration-test-coverage-report</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>merge-unit-and-integration</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <configuration>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.build.directory}/jacoco-output/</directory>
+                                    <includes>
+                                        <include>*.exec</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                            <destFile>${project.build.directory}/jacoco-output/merged.exec</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-merged-report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/jacoco-output/merged.exec</dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-merged-test-coverage-report</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <excludes>
+                                        <exclude>*Test</exclude>
+                                        <exclude>*IT</exclude>
+                                    </excludes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.30</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                            <dataFile>${project.build.directory}/jacoco-output/merged.exec</dataFile>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -333,8 +509,72 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${maven.exec.version}</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-Xms64m</argument>
+                        <argument>-Xmx256m</argument>
+                        <argument>-XX:+UseSerialGC</argument>
+                        <argument>--module-path</argument>
+                        <modulepath/>
+                        <argument>--module</argument>
+                        <argument>${module.name}/${class.name}</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.version}</version>
+                <configuration>
+                    <show>public</show>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven.project.info-reports.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependencies</report>
+                            <report>team</report>
+                            <report>mailing-lists</report>
+                            <report>ci-management</report>
+                            <report>issue-management</report>
+                            <report>licenses</report>
+                            <report>scm</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven.surefire.report.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven.checkstyle.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
     <profiles>
         <profile>
             <id>unix-active</id>
