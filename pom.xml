@@ -56,12 +56,16 @@
          -->
         <maven.build.timestamp.format>yyM.w</maven.build.timestamp.format>
 
+        <!-- For jpackage arguments -->
         <!--
             Replace this UUID with a custom one for your project. This ID is used by the Windows installer system
             to know that an installer is intended to replace/upgrade an earlier version. The easiest thing to do is
             grab a unique UUID via https://www.uuidgenerator.net
         -->
         <windows.upgrade.uuid>98e98f2c-03fe-49e1-b00d-465568101b60</windows.upgrade.uuid>
+        <vendor>Sukma Wardana</vendor>
+        <copyright>Copyright © 2021 Sukma Wardana</copyright>
+        <machine.arch>x86_64</machine.arch>
 
         <!-- For MANIFEST.MF -->
         <app.name>com/swardana/nayanika</app.name>
@@ -589,8 +593,18 @@
                 <license.file>${project.basedir}/COPYING</license.file>
                 <executable>/bin/bash</executable>
                 <argument.1/>
-                <argument.2>${project.basedir}/build_app.sh</argument.2>
+                <argument.2>${project.basedir}/package/build-package.sh</argument.2>
                 <installer.type>rpm</installer.type>
+                <arguments>
+                    --linux-package-name ${project.artifactId} ${line.separator}
+                    --linux-menu-group Graphics ${line.separator}
+                    --linux-app-category graphics ${line.separator}
+                    --linux-app-release ${project.version} ${line.separator}
+                    --linux-shortcut ${line.separator}
+                    --linux-deb-maintainer swardana@tutanota.com ${line.separator}
+                    --linux-rpm-license-type GPL-3.0-or-later
+                </arguments>
+                <temp.dir>${project.build.directory}/installer-work</temp.dir>
             </properties>
         </profile>
         <profile>
@@ -606,8 +620,12 @@
                 <license.file>${project.basedir}\COPYING</license.file>
                 <executable>cmd</executable>
                 <argument.1>/C</argument.1>
-                <argument.2>${project.basedir}\build_app.bat</argument.2>
+                <argument.2>${project.basedir}\package\build-package.bat</argument.2>
                 <installer.type>msi</installer.type>
+                <arguments>
+                    --win-upgrade-uuid ${windows.upgrade.uuid}
+                </arguments>
+                <temp.dir>${project.build.directory}\installer-work</temp.dir>
             </properties>
         </profile>
         <profile>
@@ -623,8 +641,13 @@
                 <license.file>${project.basedir}/COPYING</license.file>
                 <executable>/bin/bash</executable>
                 <argument.1/>
-                <argument.2>${project.basedir}/build_app.sh</argument.2>
+                <argument.2>${project.basedir}/package/build-package.sh</argument.2>
                 <installer.type>dmg</installer.type>
+                <arguments>
+                    --mac-package-identifier ${module.name} ${line.separator}
+                    --mac-package-name ${project.artifactId}
+                </arguments>
+                <temp.dir>${project.build.directory}/installer-work</temp.dir>
             </properties>
         </profile>
         <profile>
@@ -652,18 +675,22 @@
                                 <argument>${argument.2}</argument>
                             </arguments>
                             <environmentVariables>
-                                <APP_NAME>${artifactId}</APP_NAME>
+                                <APP_NAME>${project.artifactId}</APP_NAME>
+                                <APP_DESC>${project.description}</APP_DESC>
+                                <VENDOR>${vendor}</VENDOR>
+                                <COPYRIGHT>${copyright}</COPYRIGHT>
                                 <PROJECT_VERSION>${project.version}</PROJECT_VERSION>
                                 <MAIN_MODULE>${module.name}</MAIN_MODULE>
                                 <MAIN_CLASS>${class.name}</MAIN_CLASS>
+                                <MAIN_JAR>${project.artifactId}-${project.version}.jar</MAIN_JAR>
                                 <ICON_PATH>${icon.path}</ICON_PATH>
-                                <LICENSE_FILE>${project.basedir}/COPYING</LICENSE_FILE>
+                                <LICENSE_FILE>${license.file}</LICENSE_FILE>
                                 <INSTALLER_TYPE>${installer.type}</INSTALLER_TYPE>
-                                <WINDOWS_UUID>${windows.upgrade.uuid}</WINDOWS_UUID>
-                                <ARCH>x86_64</ARCH>
+                                <EXTRA_ARGUMENTS>${arguments}</EXTRA_ARGUMENTS>
+                                <ARCH>${machine.arch}</ARCH>
                                 <OPERATING_SYSTEM>${platform}</OPERATING_SYSTEM>
                                 <BUILD_NUMBER>${build.number}</BUILD_NUMBER>
-                                <TEMP_DIR>${project.build.directory}/installer-work</TEMP_DIR>
+                                <TEMP_DIR>${temp.dir}</TEMP_DIR>
                             </environmentVariables>
                         </configuration>
                     </plugin>

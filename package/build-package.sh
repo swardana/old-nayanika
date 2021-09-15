@@ -24,8 +24,6 @@
 # file, e.g. 1.0-SNAPSHOT.
 #
 
-MAIN_JAR="nayanika-$PROJECT_VERSION.jar"
-
 echo "java home: $JAVA_HOME"
 echo "project version: $PROJECT_VERSION"
 echo "main JAR file: $MAIN_JAR"
@@ -33,7 +31,6 @@ echo "main JAR file: $MAIN_JAR"
 # ------ SETUP DIRECTORIES AND FILES ----------------------------------------
 # Remove previously generated java runtime and installers. Copy all required
 # jar files into the input/libs folder.
-
 rm -rfd ./target/installer/
 rm -rfd ./target/mods
 rm -rfd ./target/java-runtime
@@ -42,13 +39,14 @@ rm -rfd ./target/installer-work
 mkdir -p ./target/installer/input/libs/
 mkdir -p ./target/mods
 
-cp target/libs/* target/installer/input/libs/
-cp target/${MAIN_JAR} target/installer/input/libs/
+cp target/dependency/* target/installer/input/libs/
 
 # ------ AUTOMATIC MODULES -------------------------------------------------
 # To create custom Java runtime, all the dependencies should be in modular
 # automatic modules is not supported to create custom Java runtime. So, we need
 # patch dependencies that still using automatic modules.
+
+echo "no dependency with automatic module"
 
 # ------ REQUIRED MODULES ---------------------------------------------------
 # Use jlink to detect all modules that are required to run the application.
@@ -99,54 +97,31 @@ $JAVA_HOME/bin/jlink \
 # ------ PACKAGING ----------------------------------------------------------
 # In the end we will find the package inside the target/installer directory.
 
-echo "creating installer of type $INSTALLER_TYPE"
+$JAVA_HOME/bin/jpackage \
+  --type ${INSTALLER_TYPE} \
+  --app-version ${PROJECT_VERSION} \
+  --name ${APP_NAME} \
+  --description "${APP_DESC}" \
+  --vendor "${VENDOR}" \
+  --copyright "${COPYRIGHT}" \
+  --license-file ${LICENSE_FILE} \
+  --icon ${ICON_PATH} \
+  --file-associations ./package/resources/properties/bmp.properties \
+  --file-associations ./package/resources/properties/jpg.properties \
+  --file-associations ./package/resources/properties/jpeg.properties \
+  --file-associations ./package/resources/properties/png.properties \
+  --runtime-image target/java-runtime \
+  --module ${MAIN_MODULE}/${MAIN_CLASS} \
+  ${EXTRA_ARGUMENTS} \
+  --dest target/installer \
+  --temp ${TEMP_DIR} \
+echo "creating package installer"
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+# ------ ARCHIVE ------------------------------------------------------------
+# The final package must be archived.
 
-  $JAVA_HOME/bin/jpackage \
-    --type ${INSTALLER_TYPE} \
-    --app-version ${PROJECT_VERSION} \
-    --name ${APP_NAME} \
-    --description "Picture viewer application" \
-    --vendor "swardana" \
-    --copyright "Copyright © 2021 Sukma Wardana" \
-    --license-file ${LICENSE_FILE} \
-    --icon ${ICON_PATH} \
-    --runtime-image target/java-runtime \
-    --module ${MAIN_MODULE}/${MAIN_CLASS} \
-    --dest target/installer \
-    --linux-package-name ${APP_NAME} \
-    --linux-menu-group Graphics \
-    --linux-app-category graphics \
-    --linux-app-release ${APP_VERSION} \
-    --linux-shortcut \
-    --linux-deb-maintainer swardana@tutanota.com \
-    --linux-rpm-license-type GPL-3.0-or-later \
-    --temp ${TEMP_DIR}
-
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-
-  $JAVA_HOME/bin/jpackage \
-    --type ${INSTALLER_TYPE} \
-    --app-version ${PROJECT_VERSION} \
-    --name ${APP_NAME} \
-    --description "Picture viewer application" \
-    --vendor "swardana" \
-    --copyright "Copyright © 2021 Sukma Wardana" \
-    --license-file ${LICENSE_FILE} \
-    --icon ${ICON_PATH} \
-    --runtime-image target/java-runtime \
-    --module ${MAIN_MODULE}/${MAIN_CLASS} \
-    --dest target/installer \
-    --mac-package-identifier ${MAIN_MODULE} \
-    --mac-package-name ${APP_NAME} \
-    --temp ${TEMP_DIR}
-
-else
-    echo "Unknown OSTYPE: $OSTYPE"
-    exit 1
-fi
-
+cd ./target/installer
+tar -cvzf ${APP_NAME}-${PROJECT_VERSION}-${OPERATING_SYSTEM}-${ARCH}-${BUILD_NUMBER}.tar.gz \
+  *.${INSTALLER_TYPE}
+cd -
 echo "compress the installer"
-tar -cvzf ./target/installer/${APP_NAME}-${PROJECT_VERSION}-${OPERATING_SYSTEM}-${ARCH}-${BUILD_NUMBER}.tar.gz \
-  ./target/installer/*.${INSTALLER_TYPE}

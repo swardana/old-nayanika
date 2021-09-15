@@ -1,4 +1,3 @@
-
 @ECHO OFF
 
 rem Nayanika, picture viewer application
@@ -23,8 +22,6 @@ rem run properly. The java version we want to use, the location of the java
 rem binaries (java home), and the project version as defined inside the pom.xml
 rem file, e.g. 1.0-SNAPSHOT.
 
-set MAIN_JAR=nayanika-%PROJECT_VERSION%.jar
-
 echo java home: %JAVA_HOME%
 echo project version: %PROJECT_VERSION%
 echo main JAR file: %MAIN_JAR%
@@ -38,8 +35,7 @@ IF EXIST target\mods rmdir /S /Q target\mods
 IF EXIST target\java-runtime rmdir /S /Q target\java-runtime
 IF EXIST target\installer-work rmdir /S /Q target\installer-work
 
-xcopy /S /Q target\libs\* target\installer\input\libs\
-copy target\%MAIN_JAR% target\installer\input\libs\
+xcopy /S /Q target\dependency\* target\installer\input\libs\
 
 rem ------ AUTOMATIC MODULES -------------------------------------------------
 rem To create custom Java runtime, all the dependencies should be in modular
@@ -95,28 +91,31 @@ call "%JAVA_HOME%\bin\jlink" ^
 rem ------ PACKAGING ----------------------------------------------------------
 rem In the end we will find the package inside the target/installer directory.
 
-echo creating installer of type %INSTALLER_TYPE%
-
 call "%JAVA_HOME%\bin\jpackage" ^
   --type %INSTALLER_TYPE% ^
   --app-version %PROJECT_VERSION% ^
   --name %APP_NAME% ^
-  --description "Picture viewer application" ^
-  --vendor "swardana" ^
-  --copyright "Copyright © 2021 Sukma Wardana" ^
+  --description "%APP_DESC%" ^
+  --vendor "%VENDOR%" ^
+  --copyright "%COPYRIGHT%" ^
   --license-file %LICENSE_FILE% ^
   --icon %ICON_PATH% ^
+  --file-associations package\resources\properties\bmp.properties ^
+  --file-associations package\resources\properties\jpg.properties ^
+  --file-associations package\resources\properties\jpeg.properties ^
+  --file-associations package\resources\properties\png.properties ^
   --runtime-image target\java-runtime ^
   --module %MAIN_MODULE%/%MAIN_CLASS% ^
   --dest target\installer ^
-  --win-upgrade-uuid %WINDOWS_UUID% ^
   --win-dir-chooser ^
   --win-shortcut ^
   --win-menu ^
+  %EXTRA_ARGUMENTS% ^
   --temp %TEMP_DIR%
+echo creating package installer
 
-echo compress the installer
 cd target\installer
 jar -cfM %APP_NAME%-%PROJECT_VERSION%-%OPERATING_SYSTEM%-%ARCH%-%BUILD_NUMBER%.zip ^
   %APP_NAME%-%PROJECT_VERSION%.%INSTALLER_TYPE%
 cd ..\..\
+echo compress the installer
