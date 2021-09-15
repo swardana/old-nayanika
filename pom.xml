@@ -573,7 +573,7 @@
                 <executable>/bin/bash</executable>
                 <argument.1/>
                 <argument.2>${project.basedir}/package/build-package.sh</argument.2>
-                <installer.type>rpm</installer.type>
+                <installer.type>deb</installer.type>
                 <arguments>
                     --linux-package-name ${project.artifactId} ${line.separator}
                     --linux-menu-group Graphics ${line.separator}
