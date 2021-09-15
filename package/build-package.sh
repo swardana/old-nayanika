@@ -114,7 +114,7 @@ $JAVA_HOME/bin/jpackage \
   --module ${MAIN_MODULE}/${MAIN_CLASS} \
   ${EXTRA_ARGUMENTS} \
   --dest target/installer \
-  --temp ${TEMP_DIR} \
+  --temp ${TEMP_DIR}
 echo "creating package installer"
 
 # ------ ARCHIVE ------------------------------------------------------------
