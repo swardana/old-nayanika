@@ -93,7 +93,6 @@
         <!-- Tools plugins -->
         <maven.dependency.version>3.1.2</maven.dependency.version>
         <maven.enforcer.version>3.0.0-M1</maven.enforcer.version>
-        <maven.gpg.version>3.0.1</maven.gpg.version>
 
         <jacoco.version>0.8.7</jacoco.version>
         <checkstyle.version>8.36</checkstyle.version>
@@ -357,26 +356,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>${maven.gpg.version}</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <gpgArguments>
-                        <arg>--pinentry-mode</arg>
-                        <arg>loopback</arg>
-                    </gpgArguments>
-                </configuration>
             </plugin>
 
             <plugin>
