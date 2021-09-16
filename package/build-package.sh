@@ -98,23 +98,30 @@ $JAVA_HOME/bin/jlink \
 # In the end we will find the package inside the target/installer directory.
 
 $JAVA_HOME/bin/jpackage \
-  --type ${INSTALLER_TYPE} \
+  --type app-image \
   --app-version ${PROJECT_VERSION} \
   --name ${APP_NAME} \
   --description "${APP_DESC}" \
   --vendor "${VENDOR}" \
   --copyright "${COPYRIGHT}" \
-  --license-file ${LICENSE_FILE} \
   --icon ${ICON_PATH} \
-  --file-associations ./package/resources/properties/bmp.properties \
-  --file-associations ./package/resources/properties/jpg.properties \
-  --file-associations ./package/resources/properties/jpeg.properties \
-  --file-associations ./package/resources/properties/png.properties \
+  --file-associations package/resources/properties/bmp.properties \
+  --file-associations package/resources/properties/jpg.properties \
+  --file-associations package/resources/properties/jpeg.properties \
+  --file-associations package/resources/properties/png.properties \
   --runtime-image target/java-runtime \
   --module ${MAIN_MODULE}/${MAIN_CLASS} \
   ${EXTRA_ARGUMENTS} \
-  --dest target/installer \
+  --dest target/installer/input \
   --temp ${TEMP_DIR}
+echo "creating application image"
+
+$JAVA_HOME/bin/jpackage \
+  --type ${INSTALLER_TYPE} \
+  --name ${APP_NAME} \
+  --license-file ${LICENSE_FILE} \
+  --app-image target/installer/input/${APP_NAME}* \
+  --dest target/installer
 echo "creating package installer"
 
 # ------ ARCHIVE ------------------------------------------------------------
