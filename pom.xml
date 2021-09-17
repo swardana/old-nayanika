@@ -654,7 +654,7 @@
                                 <argument>${argument.2}</argument>
                             </arguments>
                             <environmentVariables>
-                                <APP_NAME>${project.artifactId}</APP_NAME>
+                                <APP_NAME>${app.title}</APP_NAME>
                                 <APP_DESC>${project.description}</APP_DESC>
                                 <VENDOR>${vendor}</VENDOR>
                                 <COPYRIGHT>${copyright}</COPYRIGHT>

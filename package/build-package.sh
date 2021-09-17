@@ -93,10 +93,12 @@ $JAVA_HOME/bin/jlink \
   --module-path target/installer/input/libs \
   --add-modules "${detected_modules},${manual_modules},${MAIN_MODULE}" \
   --output target/java-runtime
+echo "success creating custom java-runtime on target/java-runtime"
 
 # ------ PACKAGING ----------------------------------------------------------
 # In the end we will find the package inside the target/installer directory.
 
+echo "creating application image"
 $JAVA_HOME/bin/jpackage \
   --type app-image \
   --app-version ${PROJECT_VERSION} \
@@ -109,26 +111,31 @@ $JAVA_HOME/bin/jpackage \
   --file-associations package/resources/properties/jpg.properties \
   --file-associations package/resources/properties/jpeg.properties \
   --file-associations package/resources/properties/png.properties \
+  --java-options -Xms64m \
+  --java-options -Xmx256m \
+  --java-options -XX:+UseSerialGC \
   --runtime-image target/java-runtime \
   --module ${MAIN_MODULE}/${MAIN_CLASS} \
   ${EXTRA_ARGUMENTS} \
-  --dest target/installer/input \
-  --temp ${TEMP_DIR}
-echo "creating application image"
+  --dest target/installer/input
+echo "success creating application image on target/installer/input"
 
+echo "creating package installer"
 $JAVA_HOME/bin/jpackage \
   --type ${INSTALLER_TYPE} \
   --name ${APP_NAME} \
   --license-file ${LICENSE_FILE} \
   --app-image target/installer/input/${APP_NAME}* \
-  --dest target/installer
-echo "creating package installer"
+  --dest target/installer \
+  --temp ${TEMP_DIR}
+echo "success creating package installer on target/installer"
 
 # ------ ARCHIVE ------------------------------------------------------------
 # The final package must be archived.
 
+echo "compress the installer"
 cd ./target/installer
 tar -cvzf ${APP_NAME}-${PROJECT_VERSION}-${OPERATING_SYSTEM}-${ARCH}-${BUILD_NUMBER}.tar.gz \
   *.${INSTALLER_TYPE}
 cd -
-echo "compress the installer"
+echo "success compress the installer on target/installer"
