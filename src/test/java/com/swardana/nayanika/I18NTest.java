@@ -45,7 +45,7 @@ public class I18NTest {
     @DisplayName("Test switch to Bahasa")
     public void testSwitchLocaleToBahasa() {
         var expected = "Bahasa";
-        I18N.INSTANCE.locale(new Locale("in", "ID"));
+        I18N.INSTANCE.locale(new Locale("id", "ID"));
         var actual = I18N.INSTANCE.message("this.language.name");
         assertThat(actual).isNotNull().isEqualTo(expected);
     }
