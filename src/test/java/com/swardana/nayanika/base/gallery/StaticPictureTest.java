@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -44,17 +43,6 @@ class StaticPictureTest {
         var picture = new StaticPicture("panorama.jpg", img.toFile());
         var actual = picture.name();
         assertThat(actual).isNotNull().isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("Test read picture byte data from StaticPicture")
-    public void testObtainPictureByteDataFromStaticPicture(
-        final @TempDir Path temp
-    ) throws IOException {
-        var mockFile = Files.createTempFile(temp, "pic_", ".png");
-        var picture = new StaticPicture("panorama.jpg", mockFile.toFile());
-        var actual = picture.read();
-        assertThat(actual).isNotNull();
     }
 
     @Test
