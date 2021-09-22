@@ -52,3 +52,22 @@ Any donations to support the project are accepted via.
 ## License
 
 [GNU General Public License, version 3 or later](COPYING)
+
+## Special Thanks To
+
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+![IntelliJ IDEA logo](https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA_icon.svg)
+
+[JetBrains](https://jb.gg/OpenSource) supports open source project with its products and makes professional
+software development a more productive and enjoyable experience.
+
+Many thanks to [JetBrains](https://jb.gg/OpenSource) for sponsoring our Open Source projects with a license.
+
+![Yourkit Logo](https://www.yourkit.com/images/yklogo.png)
+
+YourKit supports open source projects with innovative and intelligent tools for monitoring and profiling Java and .NET applications.
+YourKit is the creator of [YourKit Java Profiler](https://www.yourkit.com/java/profiler/),
+[YourKit .NET Profiler](https://www.yourkit.com/.net/profiler/),
+and [YourKit YouMonitor](https://www.yourkit.com/youmonitor/).
+
+Many thanks to Yourkit for sponsoring our Open Source projects with a license.
