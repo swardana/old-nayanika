@@ -53,6 +53,10 @@ Any donations to support the project are accepted via.
 
 [GNU General Public License, version 3 or later](COPYING)
 
+## Additional Resources
+
+- `#nayanika` IRC channel on `irc.libera.chat`.
+
 ## Special Thanks To
 
 ![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
