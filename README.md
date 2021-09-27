@@ -1,6 +1,8 @@
 # Nayanika
 
-Nayanika is a picture viewer application. 
+Nayanika is a picture viewer application.
+
+![Screenshot](docs/img/nayanika-preview.png)
 
 ## Building Nayanika
 
@@ -8,7 +10,7 @@ In case you want to fork and build your local version of Nayanika.
 
 ### Prerequisites
 
-- A recent version of JDK 16 (The version provided by [AdoptOpenJDK](https://adoptopenjdk.net/) is an excellent choice).
+- A recent version of JDK 17 (The version provided by [Adoptium](https://adoptium.net/) is an excellent choice).
 - Apache Maven 3.8.1.
 
 ### How to run Nayanika
