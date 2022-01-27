@@ -1,4 +1,8 @@
-# Nayanika
+## Archival Repository
+
+This repository is archived and supersede by [nayanika](https://github.com/swardana/nayanika).
+
+## Nayanika
 
 Nayanika is a picture viewer application.
 
